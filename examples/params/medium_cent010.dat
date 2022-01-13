@@ -1,0 +1,9 @@
+#temperature is given in GeV scale.
+#params for 200 GeV
+TAUI 0.4d0
+SIGMANN 4.2
+TI 0.260d0
+TC 0.170d0
+CENTRMIN 0.d0
+CENTRMAX 10.d0
+WOODSSAXON .TRUE

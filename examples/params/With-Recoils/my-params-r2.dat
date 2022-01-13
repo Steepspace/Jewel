@@ -1,0 +1,25 @@
+# This is an example parameter file.
+# Let's write output to another file:
+KEEPRECOILS .TRUE.
+WRITESCATCEN .TRUE.
+WRITEDUMMIES .TRUE.
+NEVENT 100
+SQRTS 200
+PROCESS 'PPJJ'
+CHANNEL 'MUON'
+HADRO .TRUE.
+SPLITINTFILE splitint_200.dat
+PDFFILE pdfs_200.dat
+XSECFILE xsecs_200.dat
+# Let's change the generation phase space:
+PTMIN 10.
+PTMAX 50.
+ETAMAX 1.5
+NSET 1
+NPROTON 79
+MASS 197
+# And we also want to change the medium parameters:
+MEDIUMPARAMS params/medium_cent010.dat
+LOGFILE logs/recoil-run2.log
+HEPMCFILE eventfiles/With-Recoils/jewel_event10-50-run2.hepmc
+NJOB 886000

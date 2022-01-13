@@ -1,0 +1,19 @@
+#+TITLE: JEWEL Tutorial
+
+* Description
+
+JEWEL is a Monte Carlo event generator simulating QCD jet evolution in heavy-ion collisions. It treats the interplay of QCD radiation and re-scattering in a medium with fully microscopic dynamics in a consistent perturbative framework with minimal assumptions.
+
+Please refer to official page for more information: https://jewel.hepforge.org/
+
+* Usage
+
+Obtain the docker image:
+#+begin_src bash
+docker pull steepspace/jewel
+#+end_src
+
+Now to run the JEWEL generator using the default settings:
+#+begin_src bash
+docker run -it --rm -u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD steepspace/jewel jewel-2.2.0-simple
+#+end_src
