@@ -44,6 +44,7 @@ In the following, a proposed way of working with JEWEL through docker is given. 
 
 ** IMPORTANT INFORMATION ABOUT PDF SETS
 Due to the increasing number and size of PDF data files, LHAPDF no longer bundles PDF set data in the package tarball. The sets are instead all stored online at: https://lhapdf.hepforge.org/downloads?f=pdfsets//5.9.1
+
 You should install those that you wish to use and provide the path in ~<path/to/PDFsets>~ to the docker command options.
 
 A script ~lhapdf-generate-list.py~ has been provided which will retrieve all of the links for the PDF data files and store them in ~lhapdf_link.txt~. Generate the ~lhapdf_link.txt~ as follows:
@@ -55,9 +56,10 @@ You can choose to edit the ~lhapdf_link.txt~ file and keep only the links to the
 ./lhapdf-getdata.sh
 #+end_src
 Note: In the event that the script fails midway you can restart the script using the same command as above and it will skip the files that are already downloaded and proceed to download the rest.
+
 WARNING: Total size of all pdf sets is ~16 Gb.
 
-** Useful Alias's
+** Useful Aliases
 A very efficient way of using JEWEL through docker is to use aliases as the command line does get quite lengthy.
 
 If you set the following aliases in your shell, you have everything set up to run JEWEL and generate events:
@@ -65,7 +67,7 @@ If you set the following aliases in your shell, you have everything set up to ru
 alias jewel-simple='docker run -i --rm -u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD steepspace/jewel jewel-2.2.0-simple'
 alias jewel-vac='docker run -i --rm -u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD steepspace/jewel jewel-2.2.0-vac'
 #+end_src
-You might want to put these alias definitions into your ~~/.bashrc~ for persistence.
+You might want to put these alias definitions into your =~/.bashrc= for persistence.
 
 * Usage
 Now to run the JEWEL generator using the default settings where no parameter file is needed:
