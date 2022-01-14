@@ -19,7 +19,7 @@ NSET 1
 NPROTON 79
 MASS 197
 # And we also want to change the medium parameters:
-MEDIUMPARAMS medium_cent010.dat
+MEDIUMPARAMS params/medium_cent010.dat
 LOGFILE logs/run.log
 HEPMCFILE events/event.hepmc
 NJOB 885000
