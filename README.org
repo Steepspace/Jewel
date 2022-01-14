@@ -45,8 +45,10 @@ In the following, a proposed way of working with JEWEL through docker is given. 
 ** IMPORTANT INFORMATION ABOUT PDF SETS
 Due to the increasing number and size of PDF data files, LHAPDF no longer bundles PDF set data in the package tarball. The sets are instead all stored online at: https://lhapdf.hepforge.org/downloads?f=pdfsets//5.9.1
 
-You should install those that you wish to use and provide the path in ~<path/to/PDFsets>~ to the docker command options.
+The default PDF data files for JEWEL to run are already provided in ~./PDFsets~.
 
+*** Optional
+Should you wish to add more, add the PDF data files to ~./PDFsets~.
 A script ~lhapdf-generate-list.py~ has been provided which will retrieve all of the links for the PDF data files and store them in ~lhapdf_link.txt~. Generate the ~lhapdf_link.txt~ as follows:
 #+begin_src bash
 ./lhapdf-generate-list.py
@@ -84,4 +86,15 @@ A parameter file can to be passed to change the setting:
 #+begin_src bash
 jewel-simple <params.dat>
 #+end_src
-An example of a parameter file is given in ~./examples~.
+
+** Examples
+An example of a parameter file is given in ~./examples~. To use the parameters from the examples:
+#+begin_src bash
+cd examples
+jewel-simple params/params-without-recoils.dat
+#+end_src
+or
+#+begin_src bash
+cd examples
+jewel-simple params/params-with-recoils.dat
+#+end_src
