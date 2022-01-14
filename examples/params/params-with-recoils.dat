@@ -1,5 +1,8 @@
+# This is an example parameter file.
 # Let's write output to another file:
-KEEPRECOILS .FALSE.
+KEEPRECOILS .TRUE.
+WRITESCATCEN .TRUE.
+WRITEDUMMIES .TRUE.
 NEVENT 100
 SQRTS 200
 PROCESS 'PPJJ'
@@ -16,7 +19,7 @@ NSET 1
 NPROTON 79
 MASS 197
 # And we also want to change the medium parameters:
-MEDIUMPARAMS params/medium_cent010.dat
-LOGFILE logs/no-recoil-run2.log
-HEPMCFILE eventfiles/Without-Recoils/jewel_event10-50-run2.hepmc
-NJOB 881000
+MEDIUMPARAMS medium_cent010.dat
+LOGFILE logs/run.log
+HEPMCFILE events/event.hepmc
+NJOB 885000
