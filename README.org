@@ -1,4 +1,4 @@
-#+TITLE: JEWEL Tutorial
+#+TITLE: JEWEL Docker Tutorial
 
 * Description
 
@@ -6,14 +6,80 @@ JEWEL is a Monte Carlo event generator simulating QCD jet evolution in heavy-ion
 
 Please refer to official page for more information: https://jewel.hepforge.org/
 
-* Usage
+* Docker Instructions
+Obtaining docker is explained here: https://docs.docker.com/engine/installation/
 
-Obtain the docker image:
+* Linux Prerequisites
+Note: on Linux systems, make sure to create a group "docker" and add yourself to it. Otherwise you will need to run all docker commands as sudo.
+#+begin_src bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+#+end_src
+After that you need to *logout* and log back in for the group change to take effect. Now you are able to use docker without sudo. These steps need only be done once.
+
+* Mac prerequisites
+Quote from docker webpage: Docker for Mac requires OS X El Capitan 10.11 or newer macOS release running on a 2010 or newer Mac, with Intel’s hardware support for MMU virtualization. The app will run on 10.10.3 Yosemite, but with limited support. Please see What to know before you install for a full explanation and list of prerequisites.
+
+Please use the docker webpage to obtain up-to-date information about possible Mac install issues.
+
+* Obtaining a Docker Image for JEWEL
+The command is simply:
 #+begin_src bash
 docker pull steepspace/jewel
 #+end_src
+This will download and store the Docker container in /var/lib/docker on your Linux or Mac system.
 
-Now to run the JEWEL generator using the default settings:
+* Running the Container Interactively
+The most basic thing to do is to simply run bash inside the container as such:
 #+begin_src bash
-docker run -it --rm -u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD steepspace/jewel jewel-2.2.0-simple
+docker run -it --rm steepspace/jewel bash
 #+end_src
+This gives you full access to anything inside the container. This is probably a good cross-check to see if your docker permissions are correct.
+
+* Running JEWEL through Docker
+In the following, a proposed way of working with JEWEL through docker is given. To mount your current directory on the host system into the container and making it the current directory inside the container as well and set the same user and group ids as on the host system, we add this to the command line:
+#+begin_src bash
+-u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD
+#+end_src
+
+** IMPORTANT INFORMATION ABOUT PDF SETS
+Due to the increasing number and size of PDF data files, LHAPDF no longer bundles PDF set data in the package tarball. The sets are instead all stored online at: https://lhapdf.hepforge.org/downloads?f=pdfsets//5.9.1
+You should install those that you wish to use and provide the path in ~<path/to/PDFsets>~ to the docker command options.
+
+A script ~lhapdf-generate-list.py~ has been provided which will retrieve all of the links for the PDF data files and store them in ~lhapdf_link.txt~. Generate the ~lhapdf_link.txt~ as follows:
+#+begin_src bash
+./lhapdf-generate-list.py
+#+end_src
+You can choose to edit the ~lhapdf_link.txt~ file and keep only the links to the files which you wish to download. Next, using the ~lhapdf-getdata.sh~ script as follows will download all of the links from the ~lhapdf_link.txt~ within ~./PDFsets~:
+#+begin_src bash
+./lhapdf-getdata.sh
+#+end_src
+Note: In the event that the script fails midway you can restart the script using the same command as above and it will skip the files that are already downloaded and proceed to download the rest.
+WARNING: Total size of all pdf sets is ~16 Gb.
+
+** Useful Alias's
+A very efficient way of using JEWEL through docker is to use aliases as the command line does get quite lengthy.
+
+If you set the following aliases in your shell, you have everything set up to run JEWEL and generate events:
+#+begin_src bash
+alias jewel-simple='docker run -i --rm -u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD steepspace/jewel jewel-2.2.0-simple'
+alias jewel-vac='docker run -i --rm -u `id -u $USER`:`id -g` -v <path/to/PDFsets>:/usr/local/share/lhapdf/PDFsets -v $PWD:$PWD -w $PWD steepspace/jewel jewel-2.2.0-vac'
+#+end_src
+You might want to put these alias definitions into your ~~/.bashrc~ for persistence.
+
+* Usage
+Now to run the JEWEL generator using the default settings where no parameter file is needed:
+#+begin_src bash
+jewel-simple
+#+end_src
+or
+#+begin_src bash
+jewel-vac
+#+end_src
+Note, however, that also in the latter case nuclear PDF's will be used.
+
+A parameter file can to be passed to change the setting:
+#+begin_src bash
+jewel-simple <params.dat>
+#+end_src
+An example of a parameter file is given in ~./examples~.
